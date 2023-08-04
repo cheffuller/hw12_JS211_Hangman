@@ -9,6 +9,7 @@ const rl = readline.createInterface({
 const word = "HELLO";
 const wordArray = Array.from(word);
 const hangmanWord = [];
+let hangmanCount = 0;
 
 const initializeHangmanWord = () => {
   for (let i = 0; i < wordArray.length; i++) {
@@ -16,29 +17,104 @@ const initializeHangmanWord = () => {
   }
 };
 
-const checkForWin = () => {
-    if (wordArray.join() === hangmanWord.join()) {
-        console.log(hangmanWord.join(" "));
-        console.log('You Win!')
-    } else {
-        playHangman();
+const assignLetter = () => {
+  wordArray.forEach((element, index) => {
+    if (element === inputLetter) {
+      hangmanWord[index] = inputLetter;
     }
-}
+  });
+};
+
+const checkForWin = () => {
+  if (wordArray.join() === hangmanWord.join()) {
+    console.log(hangmanWord.join(" "));
+    console.log("You Win!");
+  } else {
+    playHangman();
+  }
+};
+
+const drawHangman = () => {
+  switch (hangmanCount) {
+    case 0:
+        console.log("  ________");
+        console.log("  |");
+        console.log("  |");
+        console.log("  |");
+        console.log("  |");
+        console.log(" ---");
+    case 1:
+      console.log("  ________");
+      console.log("  |      |");
+      console.log("  |");
+      console.log("  |");
+      console.log("  |");
+      console.log(" ---");
+      break;
+    case 2:
+      console.log("  ________");
+      console.log("  |      |");
+      console.log("  |      O");
+      console.log("  |");
+      console.log("  |");
+      console.log(" ---");
+      break;
+    case 3:
+      console.log("  ________");
+      console.log("  |      |");
+      console.log("  |      O");
+      console.log("  |      |");
+      console.log("  |");
+      console.log(" ---");
+      break;
+    case 4:
+      console.log("  ________");
+      console.log("  |      |");
+      console.log("  |      O");
+      console.log("  |     /|");
+      console.log("  |");
+      console.log(" ---");
+      break;
+    case 5:
+      console.log("  ________");
+      console.log("  |      |");
+      console.log("  |      O");
+      console.log("  |     /|\\");
+      console.log("  |");
+      console.log(" ---");
+      break;
+    case 6:
+      console.log("  ________");
+      console.log("  |      |");
+      console.log("  |      O");
+      console.log("  |     /|\\");
+      console.log("  |     /");
+      console.log(" ---");
+      break;
+    case 7:
+      console.log("  ________");
+      console.log("  |      |");
+      console.log("  |      O");
+      console.log("  |     /|\\");
+      console.log("  |     / \\");
+      console.log(" ---");
+      console.log()
+      break;
+  }
+};
 
 const playHangman = () => {
-  console.log("Input: Any Letter");
   console.log(hangmanWord.join(" "));
   rl.question("> ", (inputLetter) => {
     if (wordArray.includes(inputLetter)) {
-      wordArray.forEach((element, index) => {
-        if (element === inputLetter) {
-          hangmanWord[index] = inputLetter;
-        }
-      });
+      assignLetter();
       checkForWin();
+      drawHangman;
     } else {
-        console.log('No matches')
-        playHangman()
+      console.log("No matches");
+      hangmanCount++;
+      drawHangman();
+      playHangman();
     }
   });
 };
